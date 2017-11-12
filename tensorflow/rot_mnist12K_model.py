@@ -75,7 +75,7 @@ def define_model(x,
                  number_of_classes,
                  number_of_filters,
                  number_of_fc_features):
-  splitted = tf.unpack(x, axis=4)
+  splitted = tf.unstack(x, axis=4)
   branches = []
   with tf.variable_scope('branches') as scope:  
     for index, tensor_slice in enumerate(splitted):
@@ -84,7 +84,7 @@ def define_model(x,
                       number_of_fc_features))
       if (index == 0):
         scope.reuse_variables()
-    concatenated = tf.pack(branches, axis=2)
+    concatenated = tf.stack(branches, axis=2)
     ti_pooled = tf.reduce_max(concatenated, reduction_indices=[2])
     drop = tf.nn.dropout(ti_pooled, keep_prob)
   with tf.variable_scope('fc2'):

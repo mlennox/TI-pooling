@@ -1,1 +1,3 @@
 *.amat
+mnist*.*
+*.pyc

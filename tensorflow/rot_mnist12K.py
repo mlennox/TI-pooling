@@ -50,13 +50,13 @@ logits = rot_mnist12K_model.define_model(x,
                                          NUMBER_OF_FILTERS,
                                          NUMBER_OF_FC_FEATURES)
 cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits(logits, y_gt))
+    tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y_gt))
 train_step = tf.train.AdamOptimizer(ADAM_LEARNING_RATE).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(y_gt, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # run training
 session = tf.Session()
-session.run(tf.initialize_all_variables())
+session.run(tf.global_variables_initializer())
 train_data_loader = tools.DataLoader(TRAIN_FILENAME,
                                      NUMBER_OF_CLASSES,
                                      NUMBER_OF_TRANSFORMATIONS,
